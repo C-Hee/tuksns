@@ -19,3 +19,4 @@ state
 Stateful Stateless Widget
 상태값(데이터,칼라,크기등 내부 요소)이 변하는 위젯> StatefulWidget 사용
 <> StatelessWidget 내부 요소는 바뀌지않음 바뀌더라도 위젯 자체가 바뀌어야 하는 경우
+//flutter packages get : git 클로닝 시 필요한 명령어

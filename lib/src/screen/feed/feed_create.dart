@@ -28,7 +28,7 @@ class _FeedWriteState extends State<FeedWrite> {
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   } else {
                     await feedController.feedCreate(
-                        _textController.text, tmpImg);
+                        textController.text, tmpImg);
                     Get.back();
                   }
                 },

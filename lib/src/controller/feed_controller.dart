@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:get/get.dart';
 import 'package:sns_flutter/src/model/feed_model.dart';
 import 'package:sns_flutter/src/repository/feed_repository.dart';
@@ -7,6 +6,7 @@ import 'package:sns_flutter/src/repository/feed_repository.dart';
 class FeedController extends GetxController {
   //매번 인스턴스를 만드는 것이 아니라 이전에 만들어진 것을 불러옴
   final feedRepo = Get.put(FeedRepository());
+  FeedModel feedOne;
   List feedList = [];
 
   Future<bool> feedIndex() async {
