@@ -1,13 +1,9 @@
 require('dotenv').config();
 const mysql = require('mysql2');
 
-// 외부에서도 상용 가능하도록 작성
-// 쉽게 실행 가능하도록 매핑
-// connection을 만들어 mysql에 집어넣음
-// connection을 통해 pool에서 더 편하게 사용 -> 구현부분만 바꾸면 환경이 바뀌어도 쉽게 작성
 exports.connection = mysql.createPool(
     {
-        host:process.env.DB_HOST,   // 중요한 파일 -> 설정 파일에 작성
+        host:process.env.DB_HOST,
         user: process.env.DB_USERNAME,
         password: process.env.DB_PASSWORD,
         database: process.env.DB_DATABASE,

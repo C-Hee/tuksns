@@ -4,7 +4,7 @@
  */
 exports.myLogging = async (ctx, next) => {
     let clientIp = ctx.request.ip;
-    let url = ctx.originalUrl   // 어떤 주소를 참조했는지
+    let url = ctx.originalUrl
     console.log(`${clientIp.replace("::ffff:", "")} 주소에서 요청 : ${url}`);
-    await next();   // 작업이 끝나고 다음 역할로 넘김. 보통 컨트롤러
+    await next();
 }

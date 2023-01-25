@@ -1,26 +1,39 @@
 const { pool } = require('../../data');
 
 /**
- * 모든 피드의 id와 작성 시간을 반환하는 함수
- * @returns 모든 피드의 id와 작성 시간
+ * 모든 피드의 제목과 작성 시간을 반환하는 함수
+ * @returns 모든 피드의 제목과 작성 시간
  */
 exports.feedFullView = async () => {
-    const query = `SELECT id, created_at FROM feed`
+    const query = `SELECT title, created_at FROM feed`;
     return await pool(query);
 }
 
 /**
+ * 주제별 게시판 피드의 제목과 작성 시간을 반환하는 함수
+ * @param {number} type 게시판의 주제
+ * @returns 주제별 게시판 피드의 제목과 작성 시간
+ */
+exports.feedTypeView = async (feed_type) => {
+    const query = `SELECT title, created_at FROM feed WHERE feed_type = ?`;
+    return await pool(query, [feed_type]);
+}
+
+/**
  * 작성된 피드를 데이터베이스에 저장하는 함수
+ * @param {number} feed_type 작성된 피드의 게시판 주제
  * @param {number} user_id 피드 작성자의 id
- * @param {number} image_id 피드 이미지의 id
+ * @param {string} user_name 피드 작성자의 name
+ * @param {string} title 피드 제목
  * @param {string} content 피드 내용
+ * @param {number} image_id 피드 이미지의 id
  * @returns 
  */
-exports.feedCreate = async (user_id, image_id, content) => {
+exports.feedCreate = async (feed_type, user_id, user_name, title, content, image_id) => {
     const query = `INSERT INTO feed
-    (user_id, image_id, content)
-    VALUES (?,?,?)`;
-    return await pool(query, [user_id, image_id, content]);
+    (feed_type, user_id, user_name, title, content, image_id)
+    VALUES (?,?,?,?,?,?)`;
+    return await pool(query, [feed_type, user_id, user_name, title, content, image_id]);
 }
 
 /**
@@ -41,9 +54,9 @@ exports.feedShow = async (feed_id) => {
  * @param {string} content 피드의 수정한 내용
  * @returns 
  */
-exports.feedUpdate = async (feed_id, content) => {
-    const query = `UPDATE feed SET content = ? WHERE id = ?`;
-    return await pool(query, [content, feed_id]);
+exports.feedUpdate = async (feed_id, title, content) => {
+    const query = `UPDATE feed SET title = ?, content = ? WHERE id = ?`;
+    return await pool(query, [title, content, feed_id]);
 }
 
 /**
@@ -57,12 +70,12 @@ exports.feedDelete = async (feed_id) => {
 }
 
 /**
- * 사용자의 이메일을 이용해 id를 가져오는 함수
+ * 사용자의 이메일을 이용해 id와 name을 가져오는 함수
  * @param {string} email 사용자의 email
  * @returns {number} 사용자의 id
  */
-exports.findId = async (email) => {
-    const query = `SELECT id FROM user WHERE email = ?`;
+exports.findIdName = async (email) => {
+    const query = `SELECT id, name FROM user WHERE email = ?`;
     let result = await pool(query, [email]);
     return (result.length < 0) ? null : result[0];
 }

@@ -7,25 +7,18 @@ const crypto = require('crypto');
 exports.info = async (ctx, next) => {
     let id = ctx.params.id;
     let query = await info(id);
-    if(query == null){
-        ctx.body = `${id} 회원이 존재하지 않습니다.`;
-    } else {
-        let email = `email: ${query.email}`;
-        let name = `name: ${query.name}`;
-        let created_at = `created_at: ${query.created_at}`;
-        ctx.body = `${id} 회원에 대한 정보\n` + email + '\n' + name + '\n' + created_at;
-    }
+    ctx.body = query;
 }
 
 /** 회원 가입 */
 exports.register = async (ctx, next) => {
     let { email, password, name} = ctx.request.body;
     if (!emailCheck(email)){
-        ctx.body = `이메일 형식에 맞지 않습니다.`;
+        ctx.body = {result: "noEmailCheck"};
     } else if (!passwordCheck(password)){
-        ctx.body = `비밀번호 형식에 맞지 않습니다.`;
+        ctx.body = {result: "noPasswordCheck"};
     } else if (findId(email) == null) {
-        ctx.body = `중복된 아이디입니다.`;
+        ctx.body = {result: "overlapEmail"};
     } else {
         let result = await crypto.pbkdf2Sync(password, process.env.APP_KEY, 50, 100, 'sha512');  // 50회 반복, 최대 산출물의 길이 255, sha512 방식으로 암호화
 
@@ -35,7 +28,7 @@ exports.register = async (ctx, next) => {
             let token = await generteToken({ email });  // 안에 email 말고도 name 추가 가능
             ctx.body = token;
         } else {
-            ctx.body = {result: "fail"}
+            ctx.body = {result: "fail"};
         }
     }
 }

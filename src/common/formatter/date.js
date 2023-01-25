@@ -10,8 +10,6 @@ require("moment/locale/ko");
 exports.dateFromNow = (date) => {
     let currentTime = moment();
     let feedDate = moment(date);
-    // console.log(currentTime);
-    // console.log(feedDate);
 
     if (moment(feedDate).isSame(currentTime, 'day')){   // 오늘 날짜의 글
         let timeGap = moment.duration(currentTime.diff(feedDate)).asMinutes();  // 현재 시간과 글 작성 시간의 분 차이 비교
@@ -38,7 +36,5 @@ exports.dateFromNow = (date) => {
 exports.isNewFeed = (date) => {
     let currentTime = moment().add(-10, 'minute');  // 현재 시간에서 10분 빼기
     let feedDate = moment(date);    // 글의 작성 시간
-    // console.log(currentTime);
-    // console.log(feedDate);
     return feedDate.isAfter(currentTime);   // 글 작성 시간이 현재 시간-10분의 후인지 {ex) 30분 글 작성 vs (현재 33분 -10분 = 23분)}
 }
