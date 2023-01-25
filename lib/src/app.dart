@@ -1,6 +1,7 @@
 import './screen/home.dart';
 import './screen/user/register.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 
 // class MyHomePage extends StatefulWidget {
 //   const MyHomePage({super.key, required this.title});
@@ -20,13 +21,13 @@ import 'package:flutter/material.dart';
 //     });
 //   }
 class MyApp extends StatelessWidget {
-
   String? token;
-  MyApp(this.token,{super.key});
+  MyApp(this.token, {super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: (token==null)?Register():Home(),
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: (token == null) ? Register() : Home(),
     );
   }
 }
