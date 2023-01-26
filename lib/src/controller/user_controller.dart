@@ -16,24 +16,27 @@ class UserController extends GetxController {
 
 //회원가입
 //정상동작시 true 실패시 false
-  Future<bool> register(String name, String email, String password) async {
-    String? token = await userRepo.register(name, email, password);
+  Future<String?> register(String name, String email, String password) async {
+    final prefs = await SharedPreferences.getInstance();
+    Map body = await userRepo.register(name, email, password);
 
-    if (token != null) {
-      token = token;
-      return true;
+    if (body['result'] == 'success') {
+      prefs.setString('token', body['token']);
+      return null;
+    } else {
+      return body['message'];
     }
-    return false;
   }
 
   //로그인
-  Future<bool> login(String email, String password) async {
-    String? token = await userRepo.login(email, password);
-
-    if (token != null) {
-      token = token;
-      return true;
+  Future<String?> login(String email, String password) async {
+    final prefs = await SharedPreferences.getInstance();
+    Map body = await userRepo.login(email, password);
+    if (body['result'] == 'success') {
+      prefs.setString('token', body['token']);
+      return null;
+    } else {
+      return body['message'];
     }
-    return false;
   }
 }
