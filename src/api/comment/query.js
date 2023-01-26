@@ -1,6 +1,18 @@
 const { pool } = require('../../data');
 
 /**
+ * 피드의 모든 댓글을 가져오는 함수
+ * @param {number} feed_id 피드의 id
+ * @returns 
+ */
+exports.commentShow = async (feed_id) => {
+    const query = `SELECT * FROM comment WHERE
+    feed_id = ?`;
+    let result = await pool(query, [feed_id]);
+    return (result.length < 0) ? null : result[0];
+}
+
+/**
  * 작성된 댓글을 데이터베이스에 저장하는 함수
  * @param {number} user_id 댓글 작성자의 id
  * @param {number} feed_id 댓글이 작성된 피드의 id
@@ -14,18 +26,6 @@ exports.commentCreate = async (user_id, feed_id, content, sort, cmtgroup) => {
     (user_id, feed_id, content, sort, cmtgroup)
     VALUES (?,?,?,?,?,?)`;
     return await pool(query, [user_id, feed_id, content, sort, cmtgroup]);
-}
-
-/**
- * 피드의 모든 댓글을 가져오는 함수
- * @param {number} feed_id 피드의 id
- * @returns 
- */
-exports.commentShow = async (feed_id) => {
-    const query = `SELECT * FROM comment WHERE
-    feed_id = ?`;
-    let result = await pool(query, [feed_id]);
-    return (result.length < 0) ? null : result[0];
 }
 
 /**

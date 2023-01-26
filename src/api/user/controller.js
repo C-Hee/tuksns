@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
 const { register, login, info, findId } = require('./query');
-const { emailCheck, passwordCheck } = require('../../common/validator/auth');
 const crypto = require('crypto');
 
 /** 해당 id의 상세 회원정보 */
@@ -13,11 +12,7 @@ exports.info = async (ctx, next) => {
 /** 회원 가입 */
 exports.register = async (ctx, next) => {
     let { email, password, name} = ctx.request.body;
-    if (!emailCheck(email)){
-        ctx.body = {result: "noEmailCheck"};
-    } else if (!passwordCheck(password)){
-        ctx.body = {result: "noPasswordCheck"};
-    } else if (findId(email) == null) {
+    if (findId(email) != null) {
         ctx.body = {result: "overlapEmail"};
     } else {
         let result = await crypto.pbkdf2Sync(password, process.env.APP_KEY, 50, 100, 'sha512');  // 50회 반복, 최대 산출물의 길이 255, sha512 방식으로 암호화
@@ -25,7 +20,7 @@ exports.register = async (ctx, next) => {
         let { affectedRows } = await register(email, result.toString('base64'), name);  // base64 방식으로 암호화 후 회원가입
 
         if(affectedRows > 0){
-            let token = await generteToken({ email });  // 안에 email 말고도 name 추가 가능
+            let token = await generteToken({ name, id: insertId });
             ctx.body = token;
         } else {
             ctx.body = {result: "fail"};
@@ -36,9 +31,7 @@ exports.register = async (ctx, next) => {
 /** 로그인 */
 exports.login = async (ctx, next) => {
 
-    let { email, password } = ctx.request.body;    // 아래와 같음
-    // let id = ctx.request.body.id;
-    // let pw = ctx.request.body.pw;
+    let { email, password } = ctx.request.body;
     let result = await crypto.pbkdf2Sync(password, process.env.APP_KEY, 50, 100, 'sha512');   // 너무 길이 100으로 줄임
 
     let item = await login(email, result.toString('base64'));
@@ -46,7 +39,7 @@ exports.login = async (ctx, next) => {
     if(item == null) {
         ctx.body = {result: "fail"};
     } else {
-        let token = await generteToken({email: item.email});
+        let token = await generteToken({ name: item.name, id: item.id });
         ctx.body = token;
     }
 }

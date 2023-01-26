@@ -1,7 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { feedFullView, feedTypeView, feedCreate, feedShow,feedUpdate, feedDelete, findIdName, findFeedUser, findFeedImage} = require('./query');
-const { isNewFeed } = require('../../common/formatter/date');
-const { dateFromNow } = require('../../common/formatter/date');
+const { feedFullView, feedTypeView, feedCreate, feedShow,feedUpdate, feedDelete, findIdName, findFeedUser} = require('./query');
 
 // 전체 피드 보기
 exports.index = async (ctx, next) => {
@@ -12,7 +10,7 @@ exports.index = async (ctx, next) => {
 // 주제별 피드 보기
 exports.typeIndex = async (ctx, next) => {
     let feed_type = ctx.params.type;
-    let query = await feedTypeView();
+    let query = await feedTypeView(feed_type);
     ctx.body = query;
 }
 
@@ -23,7 +21,7 @@ exports.store = async (ctx, next) => {
     let feed_type = ctx.params.type;
     let { title, image_id, content } = ctx.request.body;
 
-    let result = await feedCreate(feed_type, user.id, query.name, title, content, image_id);
+    let result = await feedCreate(feed_type, user.id, user.name, title, content, image_id);
     if(result == null){
         ctx.body = {result: "ok"};
     } else {
@@ -43,38 +41,26 @@ exports.show = async (ctx, next) => {
 
 // 피드 수정
 exports.update = async (ctx, next) =>{
-    let user = ctx.request.user;
-
-    // 피드의 id로 피드 작성자의 id를 구함
     let feed_id = ctx.params.id;
-    let feedUser_id = await findFeedUser(feed_id);
 
-    if(user.id == feedUser_id.user_id){
-        let { title, content } = ctx.request.body;
-        let result = await feedUpdate(feed_id, title, content);
-        if(result == null){
-            ctx.body = {result: "fail"};
-        } else {
-            ctx.body = {result: "ok"};
-        }
+    let { title, content } = ctx.request.body;
+    let result = await feedUpdate(feed_id, title, content);
+    if(result == null){
+        ctx.body = {result: "fail"};
+    } else {
+        ctx.body = {result: "ok"};
     }
 }
 
 // 피드 삭제
 exports.delete = async (ctx, next) => {
-    let user = ctx.request.user;
-
-    // 피드의 id로 피드 작성자의 id를 구함
     let feed_id = ctx.params.id;
-    let feedUser_id = await findFeedUser(feed_id);
 
-    if(user.id == feedUser_id.user_id){
-        let result = await feedDelete(feed_id);
-        if(result == null){
-            ctx.body = {result: "fail"};
-        } else {
-            ctx.body = {result: "ok"};
-        }
+    let result = await feedDelete(feed_id);
+    if(result == null){
+        ctx.body = {result: "fail"};
+    } else {
+        ctx.body = {result: "ok"};
     }
 }
 
