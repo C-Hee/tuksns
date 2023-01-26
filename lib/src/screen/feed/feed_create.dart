@@ -32,10 +32,10 @@ class _FeedWriteState extends State<FeedWrite> {
     } else {
       if (widget.beforeFeed == null) {
         await feedController.feedCreate(
-            _titleController.text, _textController.text, tmpImg);
+            _titleController.text, _textController.text, 1, tmpImg);
       } else {
         await feedController.feedEdit(widget.beforeFeed!.id!,
-            _titleController.text, _textController.text);
+            _titleController.text, _textController.text, 1);
       }
       Get.back();
     }

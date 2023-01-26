@@ -38,18 +38,20 @@ class FeedRepository extends GetConnect {
     return (response.statusCode == 200) ? response.body : null;
   }
 
-  Future<Map?> feedCreate(String title, String content, int? imageId) async {
+  Future<Map?> feedCreate(
+      String title, String content, int type, int? imageId) async {
     Response response = await post(
-      "/api/feed",
+      "/api/feed/$type",
       {'title': title, 'content': content, "image_id": imageId},
       headers: {'token': await userController.getToken()},
     );
     return (response.statusCode == 200) ? response.body : null;
   }
 
-  Future<Map?> feedUpdate(int id, String title, String content) async {
+  Future<Map?> feedUpdate(
+      int id, String title, String content, int type) async {
     Response response = await put(
-      "/api/feed/$id",
+      "/api/feed/$type/$id",
       {'title': title, 'content': content},
       headers: {'token': await userController.getToken()},
     );
