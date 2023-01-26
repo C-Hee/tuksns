@@ -12,7 +12,6 @@ class MyListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
         onTap: () {
-          //Get.to(const FeedShow(feed));
           Get.to(FeedShow(feed));
         },
         child: Container(
@@ -38,12 +37,10 @@ class MyListItem extends StatelessWidget {
                           SizedBox(
                             width: 10,
                           ),
-                          Text("$feed.createdAt",
+                          Text("${feed.createdAt}",
                               style: TextStyle(color: Colors.grey))
                         ],
                       ),
-                      const SizedBox(height: 5),
-                      Text('${feed.content}'),
                     ],
                   ),
                 ],

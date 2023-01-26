@@ -1,25 +1,30 @@
 import 'dart:io';
-import 'package:get/get.dart';
+
+import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/instance_manager.dart';
 import 'package:sns_flutter/src/model/feed_model.dart';
 import 'package:sns_flutter/src/repository/feed_repository.dart';
 
 class FeedController extends GetxController {
-  //매번 인스턴스를 만드는 것이 아니라 이전에 만들어진 것을 불러옴
   final feedRepo = Get.put(FeedRepository());
-  FeedModel? feedOne;
-
   List feedList = [];
+  FeedModel? feedOne;
 
   Future<bool> feedIndex() async {
     List? body = await feedRepo.feedIndex();
     if (body == null) {
       return false;
     }
-    List feed = body.map((e) => FeedModel.parse(e)).toList();
+    List feed = body.map(((e) => FeedModel.parse(e))).toList();
     feedList = feed;
-    //데이터의 변경을 알림
     update();
     return true;
+  }
+
+  imageUpload(String path, String name) async {
+    File file = File(path);
+    Map? body = await feedRepo.fileUpload(file, name);
+    return (body == null) ? null : body['id'];
   }
 
   feedShow(int id) async {
@@ -28,7 +33,7 @@ class FeedController extends GetxController {
       return null;
     }
     FeedModel feed = FeedModel.parse(body);
-    //feedOne = feed;
+    feedOne = feed;
     update();
     return feed;
   }
@@ -47,19 +52,4 @@ class FeedController extends GetxController {
     await feedRepo.feedUpdate(id, content);
     await feedShow(id);
   }
-
-  imageUpload(String path, String name) async {
-    File file = File(path);
-    Map? body = await feedRepo.fileUpload(file, name);
-    return (body == null) ? null : body['id'];
-  }
 }
-
-
-
-
-
-
-
-
-//반복문으로 feedModel.parse에 넣음

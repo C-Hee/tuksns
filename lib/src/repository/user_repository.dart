@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
-import 'package:sns_flutter/src/shared/global.dart';
+
+import '../shared/global.dart';
 
 class UserRepository extends GetConnect {
   @override
   void onInit() {
-    // TODO: implement onInit
     allowAutoSignedCert = true;
     httpClient.baseUrl = Global.API_ROOT;
     httpClient.addRequestModifier<void>((request) {
@@ -14,22 +14,26 @@ class UserRepository extends GetConnect {
     super.onInit();
   }
 
-  Future<String?> register(String name, String email, String password) async {
+  Future<Map> register(String name, String email, String password) async {
     Response response = await post(
-      "/api/user/regitster",
+      "/api/user/register",
       {
         'name': name,
         'email': email,
         'password': password,
       },
     );
+    return response.body;
   }
 
-  Future<String?> login(String email, String password) async {
-    Response response = await post("/api/user/login", {
-      'email': email,
-      'password': password,
-    });
-    return (response.statusCode == 200) ? response.bodyString : null;
+  Future<Map> login(String email, String password) async {
+    Response response = await post(
+      "/api/user/login",
+      {
+        'email': email,
+        'password': password,
+      },
+    );
+    return response.body;
   }
 }
