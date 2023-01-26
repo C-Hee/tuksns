@@ -8,7 +8,8 @@ final feedController = Get.put(FeedController());
 
 class FeedShow extends StatefulWidget {
   final FeedModel feed;
-  const FeedShow(this.feed, {super.key});
+  //const FeedShow(this.feed, {super.key});
+  FeedShow(this.feed, {super.key});
 
   @override
   State<FeedShow> createState() => _FeedShowState();
@@ -31,7 +32,7 @@ class _FeedShowState extends State<FeedShow> {
           title: Text('피드'),
         ),
         body: GetBuilder<FeedController>(builder: (b) {
-          FeedModel? feed = b.feedOne;
+          FeedModel? feed = b.feedOne; //
           if (feed == null) {
             return CircularProgressIndicator();
           }
@@ -69,41 +70,41 @@ class _FeedShowState extends State<FeedShow> {
                   height: 20,
                 ),
                 Visibility(
-                    visible: (feed.isMe == true),
+                    //visible: (feed.isMe == true),
                     child: Row(
-                      children: [
-                        Expanded(child: SizedBox()),
-                        ElevatedButton(onPressed: null, child: Text('수정')),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        ElevatedButton(
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: Text("피드 삭제"),
-                                    content: Text('정말 삭제하시겠습니까'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () =>
-                                            Navigator.pop(context, 'Cancel'),
-                                        child: const Text('Cancel'),
-                                      ),
-                                      TextButton(
-                                        onPressed: () =>
-                                            Navigator.pop(context, 'OK'),
-                                        child: const Text('OK'),
-                                      ),
-                                    ],
-                                  );
-                                },
+                  children: [
+                    Expanded(child: SizedBox()),
+                    ElevatedButton(onPressed: null, child: Text('수정')),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text("피드 삭제"),
+                                content: Text('정말 삭제하시겠습니까'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(context, 'Cancel'),
+                                    child: const Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(context, 'OK'),
+                                    child: const Text('OK'),
+                                  ),
+                                ],
                               );
                             },
-                            child: Text('삭제'))
-                      ],
-                    ))
+                          );
+                        },
+                        child: Text('삭제'))
+                  ],
+                ))
               ],
             ),
           );

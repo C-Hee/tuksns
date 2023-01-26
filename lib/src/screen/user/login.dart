@@ -1,26 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sns_flutter/src/screen/user/register.dart';
 import '../../repository/user_repository.dart';
 
-class Register extends StatefulWidget {
-  const Register({super.key});
+class Login extends StatefulWidget {
+  const Login({super.key});
   @override
-  State<Register> createState() => RegisterState();
+  State<Login> createState() => LoginState();
 }
 
-class RegisterState extends State<Register> {
+class LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final userRepo = UserRepository();
 
-  void submitButton() async {
+  void submitLogin() async {
     if (_formKey.currentState!.validate()) {
-      String name = _nameController.text;
       String email = _emailController.text;
       String password = _passwordController.text;
-      await userRepo.register(name, email, password);
+
+
+
+      final prefs = await SharedPreferences.getInstance();
+      String? token = await userRepo.login(email, password);
+      (token==null)? :prefs.setString();
     }
+  }
+
+  void submitRegister() async {
+    Get.off(const Register());
   }
 
   Widget build(BuildContext context) {
@@ -33,7 +43,7 @@ class RegisterState extends State<Register> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Text('회원가입',
+                        const Text('로그인',
                             style: TextStyle(
                                 fontSize: 28, fontWeight: FontWeight.bold)),
                         const SizedBox(
@@ -43,12 +53,6 @@ class RegisterState extends State<Register> {
                           '반갑습니다 현장실습 프로젝트 교과 프로젝트 SNS 서비스입니다.',
                           textAlign: TextAlign.center,
                           style: TextStyle(color: Colors.grey),
-                        ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        TextFormField(
-                          decoration: InputDecoration(labelText: '이름'),
                         ),
                         TextFormField(
                           controller: _emailController,
@@ -63,8 +67,18 @@ class RegisterState extends State<Register> {
                         SizedBox(
                           height: 20,
                         ),
-                        ElevatedButton(
-                            onPressed: submitButton, child: Text('가입하기')),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                                onPressed: submitRegister, child: Text('회원가입')),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            ElevatedButton(
+                                onPressed: submitLogin, child: Text('로그인'))
+                          ],
+                        ),
                       ],
                     )))));
   }

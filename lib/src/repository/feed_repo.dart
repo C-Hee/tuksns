@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:http/http.dart' as http;
 
-final base = 'http://192.168.55.113:3000';
+final base = 'http://localhost:3000';
 
 class FeedRepo {
   upload(String path, String filename) async {

@@ -1,10 +1,11 @@
 import 'package:get/get.dart';
 import 'package:sns_flutter/src/controller/feed_controller.dart';
+import 'package:sns_flutter/src/screen/user/login.dart';
 
 import '../widget/my_list_item.dart';
 import 'package:flutter/material.dart';
 import 'feed/feed_create.dart';
-import 'user/register.dart';
+import 'user/login.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -15,6 +16,13 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final feedController = Get.put(FeedController());
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   void initState() {
@@ -26,7 +34,7 @@ class _HomeState extends State<Home> {
   void _fetchData() async {
     bool result = await feedController.feedIndex();
     if (!result) {
-      Get.off(const Register());
+      Get.off(const Login());
     }
   }
 
@@ -36,18 +44,37 @@ class _HomeState extends State<Home> {
         onPressed: () {
           Get.to(const FeedWrite());
         },
-
-        ///글쓰기 버튼을 누를 경우 동작
-        ///FeedCreate위젯 실행
-        // onPressed: () {
-        //   Navigator.push(
-        //     context,
-        //     MaterialPageRoute(builder: (context) => const FeedWrite()),
-        //   );
         child: Icon(Icons.create),
       ),
-      appBar: AppBar(
-        title: const Text('MySNS'),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Color.fromARGB(255, 191, 145, 255),
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white.withOpacity(.60),
+        selectedFontSize: 14,
+        unselectedFontSize: 14,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            label: 'All items',
+            icon: Icon(Icons.favorite),
+          ),
+          BottomNavigationBarItem(
+            label: 'BOARD1',
+            icon: Icon(Icons.music_note),
+          ),
+          BottomNavigationBarItem(
+            label: 'BOARD2',
+            icon: Icon(Icons.location_on),
+          ),
+          BottomNavigationBarItem(
+            label: 'BOARD3',
+            icon: Icon(Icons.library_books),
+          ),
+          BottomNavigationBarItem(
+            label: 'BOARD4',
+            icon: Icon(Icons.add_photo_alternate_outlined),
+          ),
+        ],
       ),
       body: GetBuilder<FeedController>(builder: (c) {
         return ListView.separated(

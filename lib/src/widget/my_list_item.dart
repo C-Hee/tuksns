@@ -12,7 +12,8 @@ class MyListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
         onTap: () {
-          Get.to(const FeedShow(feed));
+          //Get.to(const FeedShow(feed));
+          Get.to(FeedShow(feed));
         },
         child: Container(
           padding: const EdgeInsets.all(10),
