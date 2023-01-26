@@ -38,7 +38,7 @@ class MyListItem extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 5),
-                Text('${feed.content}'),
+                Text('${feed.title}'),
                 const SizedBox(height: 20),
                 imageView(),
               ],

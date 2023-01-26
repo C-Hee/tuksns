@@ -6,9 +6,11 @@ class FeedModel {
   DateTime? createdAt;
   bool? isMe;
   int? type;
+  String? title;
 
   FeedModel.parse(Map m) {
     id = m['id'];
+    title = m['title'];
     content = m['content'];
     createdAt = DateTime.parse(m['created_at']);
     name = m['user_name'];

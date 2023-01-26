@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sns_flutter/src/controller/feed_controller.dart';
 import 'package:sns_flutter/src/screen/user/login.dart';
 
@@ -20,7 +21,7 @@ class _HomeState extends State<Home> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    //_fetchData();
+    _fetchData();
   }
 
   void _fetchData() async {
@@ -32,46 +33,29 @@ class _HomeState extends State<Home> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('전체?게시판'),
+        centerTitle: true,
+        elevation: 0.0,
+        leading: IconButton(
+          icon: const Icon(Icons.logout_rounded),
+          onPressed: () async {
+            final prefs = await SharedPreferences.getInstance();
+            prefs.clear();
+            Get.offAll(() => const Login());
+          },
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Get.to(const FeedWrite());
         },
-        child: Icon(Icons.create),
+        child: const Icon(Icons.create),
       ),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   type: BottomNavigationBarType.fixed,
-      //   backgroundColor: Color.fromARGB(255, 191, 145, 255),
-      //   selectedItemColor: Colors.white,
-      //   unselectedItemColor: Colors.white.withOpacity(.60),
-      //   selectedFontSize: 14,
-      //   unselectedFontSize: 14,
-      //   items: const <BottomNavigationBarItem>[
-      //     BottomNavigationBarItem(
-      //       label: 'All items',
-      //       icon: Icon(Icons.favorite),
-      //     ),
-      //     BottomNavigationBarItem(
-      //       label: 'BOARD1',
-      //       icon: Icon(Icons.music_note),
-      //     ),
-      //     BottomNavigationBarItem(
-      //       label: 'BOARD2',
-      //       icon: Icon(Icons.location_on),
-      //     ),
-      //     BottomNavigationBarItem(
-      //       label: 'BOARD3',
-      //       icon: Icon(Icons.library_books),
-      //     ),
-      //     BottomNavigationBarItem(
-      //       label: 'BOARD4',
-      //       icon: Icon(Icons.add_photo_alternate_outlined),
-      //     ),
-      //   ],
-      // ),
       body: GetBuilder<FeedController>(builder: (c) {
         return ListView.separated(
           itemBuilder: (context, index) => MyListItem(c.feedList[index]),
-          separatorBuilder: (context, index) => Divider(),
+          separatorBuilder: (context, index) => const Divider(),
           itemCount: c.feedList.length,
         );
       }),

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
+
+final _random = Random();
 
 class MyProfile extends StatelessWidget {
   const MyProfile({super.key});

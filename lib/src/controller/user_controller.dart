@@ -15,7 +15,7 @@ class UserController extends GetxController {
   }
 
 //회원가입
-//정상동작시 true 실패시 false
+//정상동작시 토큰 반환 실패시 false
   Future<String?> register(String name, String email, String password) async {
     final prefs = await SharedPreferences.getInstance();
     Map body = await userRepo.register(name, email, password);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sns_flutter/src/controller/user_controller.dart';
 import 'package:sns_flutter/src/screen/home.dart';
 import 'package:sns_flutter/src/screen/user/register.dart';
