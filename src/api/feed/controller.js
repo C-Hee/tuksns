@@ -46,9 +46,14 @@ exports.store = async (ctx, next) => {
 exports.show = async (ctx, next) => {
     let feed_id = ctx.params.id;
     let user = ctx.request.user;
-    
     let query = await feedShow(feed_id);
-    query['is_me'] = (user.id === query.user_id); // 내 글 조회 -> 내 글이면
+
+    if (user == null){
+        query['is_me'] = false;
+    } else {
+        query['is_me'] = (user.id === query.user_id); // 내 글 조회 -> 내 글이면 true
+    }
+    
     query['dateNow'] = await dateFromNow(query.created_at);
     query['newFeed'] = await isNewFeed(query.created_at);
 

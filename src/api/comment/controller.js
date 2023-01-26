@@ -6,7 +6,14 @@ exports.show = async (ctx, next) => {
     let feed_id = ctx.params.id;
     let user = ctx.request.user;
     let query = commentShow(feed_id);
-    query['is_me'] = (user.id === query.user_id);
+
+    if (Object.entries(query).length !== 0){
+        if (user == null){
+            query['is_me'] = false;
+        } else {
+            query['is_me'] = (user.id === query.user_id); // 내 글 조회 -> 내 글이면 true
+        }
+    }
     ctx.body = query;
 }
 

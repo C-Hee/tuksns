@@ -12,3 +12,11 @@ exports.verify = async (ctx, next) => {
         await next();
     })
 }
+
+exports.idcheckVerify = async (ctx, next) => {
+    var token = ctx.request.headers['token'];
+    await jwt.verify(token, process.env.APP_KEY, async (error, decoded) => {
+        ctx.request.user = decoded;
+        await next();
+    })
+}
