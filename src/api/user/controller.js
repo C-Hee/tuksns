@@ -55,9 +55,9 @@ exports.login = async (ctx, next) => {
     let item = await login(email, result.toString('base64'));
 
     if(item == null) {
-        ctx.body = {result: "fail", message: '서버 오류'};
+        ctx.body = {result: "fail", message: "아이디 혹은 비밀번호가 맞지 않습니다."};
     } else {
-        let token = await generteToken({ name: item.name, id: item.id });
+        let token = await generteToken({name: item.name, id: item.id });
         ctx.body = {result: "success", token: token};
     }
 }

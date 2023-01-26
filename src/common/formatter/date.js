@@ -11,8 +11,8 @@ exports.dateFromNow = (date) => {
     let currentTime = moment();
     let feedDate = moment(date);
 
-    if (moment(feedDate).isSame(currentTime, 'day')){   // 오늘 날짜의 글
-        let timeGap = moment.duration(currentTime.diff(feedDate)).asMinutes();
+    if (feedDate.isSame(currentTime, "day")){   // 오늘 날짜의 글
+        let timeGap = moment.duration(currentTime.diff(feedDate, "minutes"))
         if (timeGap >= 60){     // 1시간 이상일 경우 N시간 전으로 표기
             timeGap = parseInt(timeGap / 60);
             return `${timeGap}시간 전`;
@@ -29,7 +29,7 @@ exports.dateFromNow = (date) => {
 /**
  * 새 10분을 기반으로 새글인지 판단
  * @author ansubin
- * @date 2023-01-12
+ * @date 2023-01-12s
  * @param {string} date 
  * @returns {boolean} 새 글이면 ture, 아니면 false
  */

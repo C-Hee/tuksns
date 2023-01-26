@@ -1,9 +1,16 @@
 const jwt = require('jsonwebtoken');
 const { feedFullView, feedTypeView, feedCreate, feedShow,feedUpdate, feedDelete, findIdName, findFeedUser} = require('./query');
+const { dateFromNow, isNewFeed } = require('../../common/formatter/date');
 
 // 전체 피드 보기
 exports.index = async (ctx, next) => {
     let query = await feedFullView();
+
+    for (var i = 0; i < query.length; i++){
+        query[i]['dateNow'] = await dateFromNow(query[i].created_at);
+        query[i]['newFeed'] = await isNewFeed(query[i].created_at);
+    }
+
     ctx.body = query;
 }
 
@@ -11,6 +18,12 @@ exports.index = async (ctx, next) => {
 exports.typeIndex = async (ctx, next) => {
     let feed_type = ctx.params.type;
     let query = await feedTypeView(feed_type);
+
+    for (var i = 0; i < query.length; i++){
+        query[i]['dateNow'] = await dateFromNow(query[i].created_at);
+        query[i]['newFeed'] = await isNewFeed(query[i].created_at);
+    }
+
     ctx.body = query;
 }
 
@@ -35,7 +48,9 @@ exports.show = async (ctx, next) => {
     let user = ctx.request.user;
     
     let query = await feedShow(feed_id);
-    query['is_me'] = (user.id === query.user_id); // 내 글 조회 -> 내 글이면 true, 아니면 false
+    query['is_me'] = (user.id === query.user_id); // 내 글 조회 -> 내 글이면
+    query['dateNow'] = await dateFromNow(query.created_at);
+    query['newFeed'] = await isNewFeed(query.created_at);
 
     ctx.body = query;
 }

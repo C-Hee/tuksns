@@ -32,13 +32,14 @@ router.post('/api/user/register', apiUserController.register);
 router.get('/api/feed', apiFeedController.index);
 // 주제별 게시판 피드
 router.get('/api/feed/:type', apiFeedController.typeIndex);
+
+// 로그인 확인
+router.use(verify);
+
 // 피드 상세보기
 router.get('/api/feed/:type/:id', apiFeedController.show);
 // 댓글 상세보기
 router.get('/api/feed/:type/:id/comment', apiCommentController.show);
-
-// 로그인 확인
-router.use(verify);
 
 // 회원 상세정보
 router.get('/api/user/:id', apiUserController.info);
