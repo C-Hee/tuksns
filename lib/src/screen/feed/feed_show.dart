@@ -7,8 +7,6 @@ import 'package:sns_flutter/src/model/feed_model.dart';
 import 'package:sns_flutter/src/screen/feed/feed_create.dart';
 import 'package:sns_flutter/src/widget/my_profile.dart';
 
-final feedController = Get.put(FeedController());
-
 class FeedShow extends StatefulWidget {
   final FeedModel feed;
   const FeedShow(this.feed, {super.key});
@@ -18,10 +16,12 @@ class FeedShow extends StatefulWidget {
 }
 
 class _FeedShowState extends State<FeedShow> {
+  final feedController = Get.put(FeedController());
+
   @override
   void initState() {
-    _feedShow();
     super.initState();
+    _feedShow();
   }
 
   _feedShow() {
@@ -55,30 +55,30 @@ class _FeedShowState extends State<FeedShow> {
                   const MyProfile(),
                   const SizedBox(width: 20),
                   Expanded(
-                      child: Text('${widget.feed.title}',
+                      child: Text('${feed.title}',
                           style: const TextStyle(fontSize: 20))),
                 ],
               ),
-              const SizedBox(height: 20),
+              const Divider(),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    '작성자: ${widget.feed.name}',
+                    '작성자: ${feed.name}',
                     style: const TextStyle(fontSize: 15),
                   ),
-                  const SizedBox(width: 20),
+                  const SizedBox(width: 30),
                   Text(
-                    '작성일: ${widget.feed.createdAt}',
+                    '작성일: ${feed.dateFromNow}',
                     style: const TextStyle(fontSize: 15),
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
-              Text("${widget.feed.content}"),
-              const SizedBox(height: 20),
+              const Divider(),
+              Expanded(child: Text("${feed.content}")),
+              const Divider(),
               Visibility(
-                visible: (feed.isMe != true),
+                visible: (feed.isMe == true),
                 child: Row(
                   children: [
                     const Expanded(child: SizedBox()),

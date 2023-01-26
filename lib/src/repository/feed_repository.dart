@@ -1,9 +1,7 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:sns_flutter/src/controller/user_controller.dart';
-import '';
 
 import '../shared/global.dart';
 
@@ -24,6 +22,14 @@ class FeedRepository extends GetConnect {
   Future<List?> feedIndex() async {
     Response response = await get(
       "/api/feed",
+      headers: {'token': await userController.getToken()},
+    );
+    return (response.statusCode == 200) ? response.body : null;
+  }
+
+  Future<Map?> feedShow(int id, int type) async {
+    Response response = await get(
+      "/api/feed/$type/$id",
       headers: {'token': await userController.getToken()},
     );
     return (response.statusCode == 200) ? response.body : null;
@@ -64,15 +70,6 @@ class FeedRepository extends GetConnect {
       "/api/feed/$type/$id",
       headers: {'token': await userController.getToken()},
     );
-    return (response.statusCode == 200) ? response.body : null;
-  }
-
-  Future<Map?> feedShow(int id, int type) async {
-    Response response = await get(
-      "/api/feed/$type/$id",
-      headers: {'token': await userController.getToken()},
-    );
-    log('${response.body}');
     return (response.statusCode == 200) ? response.body : null;
   }
 }

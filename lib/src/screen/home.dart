@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sns_flutter/src/controller/feed_controller.dart';
 import 'package:sns_flutter/src/screen/user/login.dart';
 
+import '../model/feed_model.dart';
 import '../widget/my_list_item.dart';
 import 'package:flutter/material.dart';
 import 'feed/feed_create.dart';
@@ -52,13 +53,15 @@ class _HomeState extends State<Home> {
         },
         child: const Icon(Icons.create),
       ),
-      body: GetBuilder<FeedController>(builder: (c) {
-        return ListView.separated(
-          itemBuilder: (context, index) => MyListItem(c.feedList[index]),
-          separatorBuilder: (context, index) => const Divider(),
-          itemCount: c.feedList.length,
-        );
-      }),
+      body: GetBuilder<FeedController>(
+        builder: (c) {
+          return ListView.separated(
+            itemBuilder: (context, index) => MyListItem(c.feedList[index]),
+            separatorBuilder: (context, index) => const Divider(),
+            itemCount: c.feedList.length,
+          );
+        },
+      ),
     );
   }
 }

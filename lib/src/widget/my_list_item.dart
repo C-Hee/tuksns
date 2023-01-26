@@ -33,7 +33,7 @@ class MyListItem extends StatelessWidget {
                           fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(width: 10),
-                    Text("${feed.createdAt}",
+                    Text("${feed.dateFromNow}",
                         style: const TextStyle(color: Colors.grey))
                   ],
                 ),
