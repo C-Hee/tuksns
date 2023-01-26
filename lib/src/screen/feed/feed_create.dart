@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -21,21 +23,23 @@ class _FeedWriteState extends State<FeedWrite> {
   final _titleController = TextEditingController();
   final _textController = TextEditingController();
   final picker = ImagePicker();
+  final boardList = ['게시판1', '게시판2', '게시판3', '게시판4'];
+  String? selectedBoard = '게시판1';
   int? tmpImg;
 
   Future<void> submit() async {
-    String title = _titleController.text;
     String text = _textController.text;
+    int type = boardType(selectedBoard);
 
     if (text == '') {
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } else {
       if (widget.beforeFeed == null) {
         await feedController.feedCreate(
-            _titleController.text, _textController.text, 1, tmpImg);
+            _titleController.text, _textController.text, type, tmpImg);
       } else {
         await feedController.feedEdit(widget.beforeFeed!.id!,
-            _titleController.text, _textController.text, 1);
+            _titleController.text, _textController.text, type);
       }
       Get.back();
     }
@@ -68,28 +72,46 @@ class _FeedWriteState extends State<FeedWrite> {
         top: false,
         child: Column(
           children: [
-            TextField(
+            Row(children: [
+              Expanded(
+                  child: DropdownButtonFormField(
+                      decoration: const InputDecoration(
+                          labelText: '게시판',
+                          floatingLabelBehavior: FloatingLabelBehavior.always),
+                      value: selectedBoard,
+                      isExpanded: true,
+                      items: boardList.map((value) {
+                        return DropdownMenuItem(
+                            value: value, child: Text(value));
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedBoard = value;
+                        });
+                      }))
+            ]),
+            const Divider(),
+            TextFormField(
                 controller: _titleController,
                 minLines: null,
                 maxLines: 1,
                 decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.all(20),
+                  contentPadding: EdgeInsets.all(5),
                   border: InputBorder.none,
+                  labelText: '제목',
                 )),
             const Divider(),
-            const SizedBox(
-              height: 5,
-            ),
             Expanded(
-              child: TextField(
+              child: TextFormField(
                 controller: _textController,
                 keyboardType: TextInputType.multiline,
                 expands: true,
                 minLines: null,
                 maxLines: null,
                 decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.all(20),
+                  contentPadding: EdgeInsets.all(5),
                   border: InputBorder.none,
+                  labelText: '내용',
                 ),
               ),
             ),
@@ -122,6 +144,14 @@ class _FeedWriteState extends State<FeedWrite> {
         fit: BoxFit.cover,
       ),
     );
+  }
+
+  int boardType(String? board) {
+    int i = 0;
+    while (board != boardList[i]) {
+      i++;
+    }
+    return i;
   }
 
   Future<void> _upload() async {
