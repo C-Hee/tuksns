@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sns_flutter/src/screen/user/register.dart';
 import '../../repository/user_repository.dart';
+import '../home.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -32,12 +33,15 @@ class LoginState extends State<Login> {
   //       );
   //     } else {
   //       await prefs.setString('token', token);
+  //Get.to(const Home());
   //     }
-  //     Get.back();
+  //
   //   }
   // }
+
+  //로그인 스킵 임시 함수
   void submitLogin() async {
-    Get.back();
+    Get.to(const Home());
   }
 
   void submitRegister() async {
