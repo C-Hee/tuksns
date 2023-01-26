@@ -40,7 +40,7 @@ exports.register = async (ctx, next) => {
 
     if(affectedRows > 0){
         let token = await generteToken({ name, id: insertId });
-        ctx.body = {result: "success", token};
+        ctx.body = {result: "success", token: token};
     } else {
         ctx.body = {result: "fail", message: '서버 오류'};
     }
@@ -58,7 +58,7 @@ exports.login = async (ctx, next) => {
         ctx.body = {result: "fail", message: '서버 오류'};
     } else {
         let token = await generteToken({ name: item.name, id: item.id });
-        ctx.body = {result: "success", token};
+        ctx.body = {result: "success", token: token};
     }
 }
 
