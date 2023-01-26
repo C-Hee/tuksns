@@ -8,7 +8,7 @@ class FeedModel {
   int? type;
   String? title;
   String? dateFromNow;
-  bool? isnewFeed = true;
+  bool? isnewFeed = false;
 
   FeedModel.parse(Map m) {
     id = m['id'];

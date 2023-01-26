@@ -51,6 +51,6 @@ class FeedController extends GetxController {
 
   feedEdit(int id, String title, String content, int type) async {
     await feedRepo.feedUpdate(id, title, content, type);
-    await feedShow(id, type);
+    await feedIndex();
   }
 }

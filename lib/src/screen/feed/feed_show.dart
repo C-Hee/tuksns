@@ -29,7 +29,7 @@ class _FeedShowState extends State<FeedShow> {
   }
 
   _feedDelete() async {
-    await feedController.feedDelete(widget.feed.type!, widget.feed.id!);
+    await feedController.feedDelete(widget.feed.id!, widget.feed.type!);
     Get.back();
     Get.back();
   }
@@ -84,7 +84,7 @@ class _FeedShowState extends State<FeedShow> {
                     const Expanded(child: SizedBox()),
                     ElevatedButton(
                         onPressed: () {
-                          Get.off(() => FeedWrite(beforeFeed: widget.feed));
+                          Get.off(() => FeedWrite(beforeFeed: feed));
                         },
                         child: const Text('수정')),
                     const SizedBox(width: 20),
