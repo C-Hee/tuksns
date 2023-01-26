@@ -49,3 +49,13 @@ exports.findId = async (email) => {
     let result = await pool(query, [email]);
     return (result.length < 0) ? null : result[0];
 }
+
+/**
+ * 이메일 중복 검사
+ * @param {string} email 사용자의 이메일
+ * @returns 
+ */
+exports.find = async (email) => {
+    let result = await pool(`SELECT count(*) count FROM user where email = ?`, [email]);
+    return (result.length < 0) ? null : result[0];
+  }

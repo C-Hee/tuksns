@@ -22,21 +22,22 @@ exports.store = async (ctx, next) => {
     let { title, image_id, content } = ctx.request.body;
 
     let result = await feedCreate(feed_type, user.id, user.name, title, content, image_id);
-    if(result == null){
-        ctx.body = {result: "ok"};
+    if(result.affectedRows > 0) {
+        ctx.body = { result: "succes", id: result.insertId }
     } else {
-        ctx.body = {result: "fail"};
+        ctx.body = { result: "fail", }
     }
 }
 
 // 피드 상세보기
 exports.show = async (ctx, next) => {
-    let id = ctx.params.id;
-    let user = ctx.request.user;    // middleware 수정한 코드를 바탕으로 사용 가능 41~43
-    let item = await feedShow(id);
-    item['is_me'] = (user.id === item.user_id); // 내 글 조회 -> 내 글이면 true, 아니면 false
+    let feed_id = ctx.params.id;
+    let user = ctx.request.user;
+    
+    let query = await feedShow(feed_id);
+    query['is_me'] = (user.id === query.user_id); // 내 글 조회 -> 내 글이면 true, 아니면 false
 
-    ctx.body = item;
+    ctx.body = query;
 }
 
 // 피드 수정
@@ -45,10 +46,10 @@ exports.update = async (ctx, next) =>{
 
     let { title, content } = ctx.request.body;
     let result = await feedUpdate(feed_id, title, content);
-    if(result == null){
-        ctx.body = {result: "fail"};
+    if(result.affectedRows > 0) {
+        ctx.body = { result: "succes", id: feed_id }
     } else {
-        ctx.body = {result: "ok"};
+        ctx.body = { result: "fail", }
     }
 }
 
@@ -57,10 +58,10 @@ exports.delete = async (ctx, next) => {
     let feed_id = ctx.params.id;
 
     let result = await feedDelete(feed_id);
-    if(result == null){
-        ctx.body = {result: "fail"};
+    if(result.affectedRows > 0) {
+        ctx.body = { result: "succes", id: feed_id }
     } else {
-        ctx.body = {result: "ok"};
+        ctx.body = { result: "fail", }
     }
 }
 

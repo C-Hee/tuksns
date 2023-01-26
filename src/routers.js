@@ -53,10 +53,10 @@ router.post('/api/feed/:type/:id/comment', apiCommentController.store);
 router.put('/api/feed/:type/:id/comment/:comment_id', apiCommentController.update);
 router.delete('/api/feed/:type/:id/comment/:comment_id', apiCommentController.delete);
 
-// 대댓글 작성, 수정 삭제
-router.post('/api/feed/:type/:id/comment/:comment_id', apiCommentController.orderStore);
-router.put('/api/feed/:type/:id/comment/:comment_id/:ordercomment_id', apiCommentController.orderUpdate);
-router.delete('/api/feed/:type/:id/comment/:comment_id/:ordercomment_id', apiCommentController.orderDelete);
+// // 대댓글 작성, 수정 삭제
+// router.post('/api/feed/:type/:id/comment/:comment_id', apiCommentController.orderStore);
+// router.put('/api/feed/:type/:id/comment/:comment_id/:ordercomment_id', apiCommentController.orderUpdate);
+// router.delete('/api/feed/:type/:id/comment/:comment_id/:ordercomment_id', apiCommentController.orderDelete);
 
 
 module.exports = router;

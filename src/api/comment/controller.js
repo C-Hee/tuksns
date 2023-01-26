@@ -10,21 +10,35 @@ exports.show = async (ctx, next) => {
     ctx.body = query;
 }
 
-// 댓글 작성
+// // 댓글 작성 대댓글 존재
+// exports.store = async (ctx, next) => {
+//     let user = ctx.request.user;
+//     let feed_id = ctx.params.id;
+//     let { content } = ctx.request.body;
+//     let sort = 0;
+//     let cmtgroup = 0;
+//     let query = await MaxCmtgroup();
+//     (query == null) ? cmtgroup = 1 : cmtgroup = cmtgroup+1;
+
+//     let result = await commentCreate(user.id, feed_id, content, sort, cmtgroup);
+//     if(result == null){
+//         ctx.body = {result: "success"};
+//     } else {
+//         ctx.body = {result: "fail"};
+//     }
+// }
+
+// 댓글 작성 대댓글 없음
 exports.store = async (ctx, next) => {
     let user = ctx.request.user;
     let feed_id = ctx.params.id;
     let { content } = ctx.request.body;
-    let sort = 0;
-    let cmtgroup = 0;
-    let query = await MaxCmtgroup();
-    (query == null) ? cmtgroup = 1 : cmtgroup = cmtgroup+1;
 
-    let result = await commentCreate(user.id, feed_id, content, sort, cmtgroup);
-    if(result == null){
-        ctx.body = {result: "ok"};
+    let result = await commentCreate(user.id, user.name, feed_id, content);
+    if(result.affectedRows > 0) {
+        ctx.body = { result: "succes", id: result.insertId }
     } else {
-        ctx.body = {result: "fail"};
+        ctx.body = { result: "fail", }
     }
 }
 
@@ -34,10 +48,10 @@ exports.update = async (ctx, next) =>{
 
     let { content } = ctx.request.body;
     let result = await commentUpdate(comment_id, content);
-    if(result == null){
-        ctx.body = {result: "fail"};
+    if(result.affectedRows > 0) {
+        ctx.body = { result: "succes", id: comment_id }
     } else {
-        ctx.body = {result: "ok"};
+        ctx.body = { result: "fail", }
     }
     
 }
@@ -47,55 +61,55 @@ exports.delete = async (ctx, next) => {
     let comment_id = ctx.params.comment_id;
 
     let result = await commentDelete(comment_id);
-    if(result == null){
-        ctx.body = {result: "fail"};
+    if(result.affectedRows > 0) {
+        ctx.body = { result: "succes", id: comment_id }
     } else {
-        ctx.body = {result: "ok"};
+        ctx.body = { result: "fail", }
     }
 }
 
-// 대댓글 작성
-exports.orderStore = async (ctx, next) => {
-    let user = ctx.request.user;
-    let feed_id = ctx.params.id;
-    let { content } = ctx.request.body;
+// // 대댓글 작성
+// exports.orderStore = async (ctx, next) => {
+//     let user = ctx.request.user;
+//     let feed_id = ctx.params.id;
+//     let { content } = ctx.request.body;
 
-    let comment_id = ctx.params.comment_id;
-    let query = commentInfo(comment_id);
-    let cmtgroup = query.cmtgroup;
-    query = MaxSort(query.cmtgroup);
-    let sort = query.sort + 1;
+//     let comment_id = ctx.params.comment_id;
+//     let query = commentInfo(comment_id);
+//     let cmtgroup = query.cmtgroup;
+//     query = MaxSort(query.cmtgroup);
+//     let sort = query.sort + 1;
 
-    let result = await commentCreate(user.id, feed_id, content, sort, cmtgroup);
-    if(result == null){
-        ctx.body = {result: "ok"};
-    } else {
-        ctx.body = {result: "fail"};
-    }
-}
+//     let result = await commentCreate(user.id, feed_id, content, sort, cmtgroup);
+//     if(result == null){
+//         ctx.body = {result: "success"};
+//     } else {
+//         ctx.body = {result: "fail"};
+//     }
+// }
 
-// 대댓글 수정
-exports.orderUpdate = async (ctx, next) =>{
-    let ordercomment_id = ctx.params.ordercomment_id;
+// // 대댓글 수정
+// exports.orderUpdate = async (ctx, next) =>{
+//     let ordercomment_id = ctx.params.ordercomment_id;
 
-    let { content } = ctx.request.body;
-    let result = await commentUpdate(ordercomment_id, content);
-    if(result == null){
-        ctx.body = {result: "fail"};
-    } else {
-        ctx.body = {result: "ok"};
-    }
+//     let { content } = ctx.request.body;
+//     let result = await commentUpdate(ordercomment_id, content);
+//     if(result == null){
+//         ctx.body = {result: "fail"};
+//     } else {
+//         ctx.body = {result: "success"};
+//     }
     
-}
+// }
 
-// 대댓글 삭제
-exports.orderDelete = async (ctx, next) => {
-    let ordercomment_id = ctx.params.ordercomment_id;
+// // 대댓글 삭제
+// exports.orderDelete = async (ctx, next) => {
+//     let ordercomment_id = ctx.params.ordercomment_id;
 
-    let result = await commentDelete(ordercomment_id);
-    if(result == null){
-        ctx.body = {result: "fail"};
-    } else {
-        ctx.body = {result: "ok"};
-    }
-}
+//     let result = await commentDelete(ordercomment_id);
+//     if(result == null){
+//         ctx.body = {result: "fail"};
+//     } else {
+//         ctx.body = {result: "success"};
+//     }
+// }

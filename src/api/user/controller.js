@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
-const { register, login, info, findId } = require('./query');
+const { register, login, info, find } = require('./query');
+const { emailCheck, passwordCheck } = require('../../common/validator/auth');
+
 const crypto = require('crypto');
 
 /** 해당 id의 상세 회원정보 */
@@ -12,19 +14,35 @@ exports.info = async (ctx, next) => {
 /** 회원 가입 */
 exports.register = async (ctx, next) => {
     let { email, password, name} = ctx.request.body;
-    if (findId(email) != null) {
-        ctx.body = {result: "overlapEmail"};
+
+    if (!emailCheck(email)){
+        ctx.statuc = 400;
+        ctx.body = {result: "fail", message: `이메일 형식에 맞지 않습니다.`};
+        return;
+    }
+
+    if (!passwordCheck(password)){
+        ctx.statuc = 400;
+        ctx.body = {result: "fail", message: `비밀번호 형식에 맞지 않습니다.`};
+        return;
+    }
+
+    let { count } = await find(email);
+    if ( count > 0) {
+        ctx.status = 400;
+        ctx.body = {result: "fail", message: '중복된 이메일이 존재합니다.'};
+        return;
+    }
+
+    let result = await crypto.pbkdf2Sync(password, process.env.APP_KEY, 50, 100, 'sha512');  // 50회 반복, 최대 산출물의 길이 255, sha512 방식으로 암호화
+
+    let { affectedRows, insertId } = await register(email, result.toString('base64'), name);  // base64 방식으로 암호화 후 회원가입
+
+    if(affectedRows > 0){
+        let token = await generteToken({ name, id: insertId });
+        ctx.body = {result: "success", token};
     } else {
-        let result = await crypto.pbkdf2Sync(password, process.env.APP_KEY, 50, 100, 'sha512');  // 50회 반복, 최대 산출물의 길이 255, sha512 방식으로 암호화
-
-        let { affectedRows } = await register(email, result.toString('base64'), name);  // base64 방식으로 암호화 후 회원가입
-
-        if(affectedRows > 0){
-            let token = await generteToken({ name, id: insertId });
-            ctx.body = token;
-        } else {
-            ctx.body = {result: "fail"};
-        }
+        ctx.body = {result: "fail", message: '서버 오류'};
     }
 }
 
@@ -37,10 +55,10 @@ exports.login = async (ctx, next) => {
     let item = await login(email, result.toString('base64'));
 
     if(item == null) {
-        ctx.body = {result: "fail"};
+        ctx.body = {result: "fail", message: '서버 오류'};
     } else {
         let token = await generteToken({ name: item.name, id: item.id });
-        ctx.body = token;
+        ctx.body = {result: "success", token};
     }
 }
 

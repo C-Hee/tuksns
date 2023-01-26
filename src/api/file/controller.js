@@ -8,7 +8,7 @@ exports.upload = async (ctx) => {
 
     if(affectedRows > 0){
         ctx.body = {
-            result: "ok",
+            result: "success",
             id: insertId
         }
     } else {

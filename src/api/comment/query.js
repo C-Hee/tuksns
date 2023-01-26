@@ -13,7 +13,7 @@ exports.commentShow = async (feed_id) => {
 }
 
 /**
- * 작성된 댓글을 데이터베이스에 저장하는 함수
+ * 작성된 댓글을 데이터베이스에 저장하는 함수 대댓글 있음
  * @param {number} user_id 댓글 작성자의 id
  * @param {number} feed_id 댓글이 작성된 피드의 id
  * @param {string} content 댓글 내용
@@ -21,11 +21,27 @@ exports.commentShow = async (feed_id) => {
  * @param {number} cmtgroup 댓글의 최종 부모
  * @returns 
  */
-exports.commentCreate = async (user_id, feed_id, content, sort, cmtgroup) => {
+// exports.commentCreate = async (user_id, feed_id, content, sort, cmtgroup) => {
+//     const query = `INSERT INTO comment
+//     (user_id, feed_id, content, sort, cmtgroup)
+//     VALUES (?,?,?,?,?,?)`;
+//     return await pool(query, [user_id, feed_id, content, sort, cmtgroup]);
+// }
+
+
+/**
+ * 작성된 댓글을 데이터베이스에 저장하는 함수 대댓글 없음
+ * @param {number} user_id 댓글 작성자의 id
+ * @param {string} user_name 댓글 작성자의 name
+ * @param {number} feed_id 댓글이 작성된 피드의 id
+ * @param {string} content 댓글 내용
+ * @returns 
+ */
+exports.commentCreate = async (user_id, user_name, feed_id, content) => {
     const query = `INSERT INTO comment
-    (user_id, feed_id, content, sort, cmtgroup)
-    VALUES (?,?,?,?,?,?)`;
-    return await pool(query, [user_id, feed_id, content, sort, cmtgroup]);
+    (user_id, user_name, feed_id, content)
+    VALUES (?,?,?,?)`;
+    return await pool(query, [user_id, user_name, feed_id, content]);
 }
 
 /**
