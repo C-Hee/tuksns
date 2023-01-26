@@ -11,8 +11,8 @@ exports.dateFromNow = (date) => {
     let currentTime = moment();
     let feedDate = moment(date);
 
-    if (feedDate.isSame(currentTime, "day")){   // 오늘 날짜의 글
-        let timeGap = moment.duration(currentTime.diff(feedDate, "minutes"))
+    if (moment(feedDate).isSame(currentTime, 'day')){   // 오늘 날짜의 글
+        let timeGap = moment.duration(currentTime.diff(feedDate)).asMinutes();
         if (timeGap >= 60){     // 1시간 이상일 경우 N시간 전으로 표기
             timeGap = parseInt(timeGap / 60);
             return `${timeGap}시간 전`;

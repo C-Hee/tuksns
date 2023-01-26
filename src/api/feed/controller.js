@@ -10,7 +10,6 @@ exports.index = async (ctx, next) => {
         query[i]['dateNow'] = await dateFromNow(query[i].created_at);
         query[i]['newFeed'] = await isNewFeed(query[i].created_at);
     }
-
     ctx.body = query;
 }
 
