@@ -18,14 +18,12 @@ exports.typeIndex = async (ctx, next) => {
 
 // 새 피드 작성 처리
 exports.store = async (ctx, next) => {
-    let { token } = ctx.request.header;
-    let payload = await TokenToEmail(token);    // 토큰을 이메일로 변경
-    let query = await findIdName(payload.email);  // 이메일을 통해 ID를 가져옴
+    let user = ctx.request.user;
 
     let feed_type = ctx.params.type;
     let { title, image_id, content } = ctx.request.body;
 
-    let result = await feedCreate(feed_type, query.id, query.name, title, content, image_id);
+    let result = await feedCreate(feed_type, user.id, query.name, title, content, image_id);
     if(result == null){
         ctx.body = {result: "ok"};
     } else {

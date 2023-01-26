@@ -12,6 +12,7 @@ const { verify } = require('./middleware/auth');
 const webController = require('./web/controller');
 const apiUserController = require('./api/user/controller');
 const apiFeedController = require('./api/feed/controller');
+const apiCommentController = require('./api/comment/controller');
 
 router.use(myLogging);
 
@@ -30,9 +31,11 @@ router.post('/api/user/register', apiUserController.register);
 // 전체 피드
 router.get('/api/feed', apiFeedController.index);
 // 주제별 게시판 피드
-router.get()
+router.get('/api/feed/:type', apiFeedController.typeIndex);
 // 피드 상세보기
-router.get('/api/feed/:id', apiFeedController.show);
+router.get('/api/feed/:type/:id', apiFeedController.show);
+// 댓글 상세보기
+router.get('/api/feed/:type/:id/comment', apiCommentController.show);
 
 // 로그인 확인
 router.use(verify);
@@ -41,13 +44,13 @@ router.use(verify);
 router.get('/api/user/:id', apiUserController.info);
 
 // 피드 작성, 수정, 삭제
-router.post('/api/feed', apiFeedController.store);
-router.put('/api/feed/:id', apiFeedController.update);
-router.delete('/api/feed/:id', apiFeedController.delete);
+router.post('/api/feed/:type', apiFeedController.store);
+router.put('/api/feed/:type/:id', apiFeedController.update);
+router.delete('/api/feed/:type/:id', apiFeedController.delete);
 
 // 댓글 작성, 수정, 삭제
-router.post();
-router.put();
-router.delete();
+router.post('/api/feed/:type/:id/comment', apiCommentController.store);
+router.put('/api/feed/:type/:id/comment/:comment_id', apiCommentController.update);
+router.delete('/api/feed/:type/:id/comment/:comment_id', apiCommentController.delete);
 
 module.exports = router;

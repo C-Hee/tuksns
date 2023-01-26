@@ -49,7 +49,7 @@ exports.feedShow = async (feed_id) => {
 }
 
 /**
- * 피드의 내용을 수정하는 함수
+ * 피드의 제목과 내용을 수정하는 함수
  * @param {number} feed_id 수정할 피드의 id
  * @param {string} content 피드의 수정한 내용
  * @returns 
