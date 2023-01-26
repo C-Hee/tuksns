@@ -1,0 +1,31 @@
+레이아웃 구성은 Row(좌>우), Colunm(상>하)으로 구성
+좌우분할 상하분할 분할 분할 분할 분할로 모든 
+
+//
+마지막 데모
+핵심기능이 안되더라도 일단 돌아는 가야됨. 코드만 달랑 절대XX
+//
+
+컬럼> 모든 리스트를 그려놓고 대기하고 있음/ 보이지 않는 부분도/
+
+리스트뷰>리소스의절약/ 재사용
+사용법 컬럼과 같음
+
+state
+
+위젯?
+텍스트>위젯, 아이콘>위젯, 아이콘안 이미지>위젯 텍스트박스>위젯
+
+Stateful Stateless Widget
+상태값(데이터,칼라,크기등 내부 요소)이 변하는 위젯> StatefulWidget 사용
+<> StatelessWidget 내부 요소는 바뀌지않음 바뀌더라도 위젯 자체가 바뀌어야 하는 경우
+//flutter packages get : git 클로닝 시 필요한 명령어
+
+
+
+
+
+주석처리 부분
+
+Visibility isMe 부분
+feedshow(feed)부분 my_list_item.dart
