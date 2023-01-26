@@ -16,13 +16,13 @@ exports.register = async (ctx, next) => {
     let { email, password, name} = ctx.request.body;
 
     if (!emailCheck(email)){
-        ctx.statuc = 400;
+        ctx.status = 400;
         ctx.body = {result: "fail", message: `이메일 형식에 맞지 않습니다.`};
         return;
     }
 
     if (!passwordCheck(password)){
-        ctx.statuc = 400;
+        ctx.status = 400;
         ctx.body = {result: "fail", message: `비밀번호 형식에 맞지 않습니다.`};
         return;
     }
