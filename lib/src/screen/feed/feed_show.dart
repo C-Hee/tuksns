@@ -56,7 +56,8 @@ class _FeedShowState extends State<FeedShow> {
                   const SizedBox(width: 20),
                   Expanded(
                       child: Text('${feed.title}',
-                          style: const TextStyle(fontSize: 20))),
+                          style: const TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold))),
                 ],
               ),
               const Divider(),

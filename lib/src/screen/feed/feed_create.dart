@@ -63,8 +63,8 @@ class _FeedWriteState extends State<FeedWrite> {
     return Scaffold(
       appBar: AppBar(
         title: (widget.beforeFeed == null)
-            ? const Text('피드 작성')
-            : const Text('피드 수정'),
+            ? const Text('게시글 작성')
+            : const Text('게시글 수정'),
         actions: [
           IconButton(onPressed: submit, icon: const Icon(Icons.save)),
         ],
@@ -74,6 +74,9 @@ class _FeedWriteState extends State<FeedWrite> {
         child: Column(
           children: [
             Row(children: [
+              const SizedBox(
+                width: 5,
+              ),
               Expanded(
                   child: DropdownButtonFormField(
                       decoration: const InputDecoration(

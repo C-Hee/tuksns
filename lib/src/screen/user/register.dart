@@ -51,14 +51,23 @@ class _RegisterState extends State<Register> {
                 ),
                 const SizedBox(height: 10),
                 const Text(
-                  '반갑습니다 현장실습 프로젝트 교과 예제 프로젝트 SNS 서비스 입니다.',
+                  'TUKSNS에 오신 것을 환영합니다.',
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.grey),
                 ),
                 const SizedBox(height: 30),
                 TextFormField(
                   controller: _nameController,
-                  decoration: const InputDecoration(labelText: '이름(닉네임)'),
+                  decoration: const InputDecoration(
+                      labelText: '이름(닉네임)',
+                      focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(width: 1, color: Colors.purple),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(width: 1, color: Colors.purple),
+                          borderRadius: BorderRadius.all(Radius.circular(10)))),
                   validator: (String? value) {
                     if (value == null || value!.trim().isEmpty) {
                       return "이름을 입력해야 합니다.";
@@ -66,9 +75,19 @@ class _RegisterState extends State<Register> {
                     return null;
                   },
                 ),
+                const SizedBox(height: 15),
                 TextFormField(
                   controller: _emailController,
-                  decoration: const InputDecoration(labelText: '아이디(email)'),
+                  decoration: const InputDecoration(
+                      labelText: '아이디(email)',
+                      focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(width: 1, color: Colors.purple),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(width: 1, color: Colors.purple),
+                          borderRadius: BorderRadius.all(Radius.circular(10)))),
                   keyboardType: TextInputType.emailAddress,
                   validator: (String? value) {
                     if (value == null || value!.trim().isEmpty) {
@@ -77,9 +96,19 @@ class _RegisterState extends State<Register> {
                     return null;
                   },
                 ),
+                const SizedBox(height: 15),
                 TextFormField(
                   controller: _passwordController,
-                  decoration: const InputDecoration(labelText: '비밀번호'),
+                  decoration: const InputDecoration(
+                      labelText: '비밀번호',
+                      focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(width: 1, color: Colors.purple),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(width: 1, color: Colors.purple),
+                          borderRadius: BorderRadius.all(Radius.circular(10)))),
                   obscureText: true,
                   validator: (value) {
                     if (value == null || value!.trim().isEmpty) {

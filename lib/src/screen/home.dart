@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('전체?게시판'),
+        title: const Text('게시판'),
         centerTitle: true,
         elevation: 0.0,
         leading: IconButton(

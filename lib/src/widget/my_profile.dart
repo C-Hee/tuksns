@@ -10,7 +10,7 @@ class MyProfile extends StatelessWidget {
       height: 50,
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
-        color: Colors.red,
+        color: Colors.white,
       ),
     );
   }
