@@ -80,7 +80,7 @@ exports.delete = async (ctx, next) => {
 //     query = MaxSort(query.cmtgroup);
 //     let sort = query.sort + 1;
 
-//     let result = await commentCreate(user.id, feed_id, content, sort, cmtgroup);
+//     let result = await commentCreate(user.id, user.name, feed_id, content, sort, cmtgroup);
 //     if(result == null){
 //         ctx.body = {result: "success"};
 //     } else {

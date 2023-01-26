@@ -5,7 +5,7 @@ const { pool } = require('../../data');
  * @returns 모든 피드의 제목과 작성 시간
  */
 exports.feedFullView = async () => {
-    const query = `SELECT title, created_at FROM feed`;
+    const query = `SELECT title, user_name, created_at FROM feed`;
     return await pool(query);
 }
 
@@ -15,7 +15,7 @@ exports.feedFullView = async () => {
  * @returns 주제별 게시판 피드의 제목과 작성 시간
  */
 exports.feedTypeView = async (feed_type) => {
-    const query = `SELECT title, created_at FROM feed WHERE feed_type = ?`;
+    const query = `SELECT title, user_name, created_at FROM feed WHERE feed_type = ?`;
     return await pool(query, [feed_type]);
 }
 
