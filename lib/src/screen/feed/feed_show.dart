@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sns_flutter/src/controller/feed_controller.dart';
@@ -18,16 +20,16 @@ class FeedShow extends StatefulWidget {
 class _FeedShowState extends State<FeedShow> {
   @override
   void initState() {
-    super.initState();
     _feedShow();
+    super.initState();
   }
 
   _feedShow() {
-    feedController.feedShow(widget.feed.id!);
+    feedController.feedShow(widget.feed.id!, widget.feed.type!);
   }
 
   _feedDelete() async {
-    await feedController.feedDelete(widget.feed.id!);
+    await feedController.feedDelete(widget.feed.type!, widget.feed.id!);
     Get.back();
     Get.back();
   }
@@ -52,26 +54,31 @@ class _FeedShowState extends State<FeedShow> {
                 children: [
                   const MyProfile(),
                   const SizedBox(width: 20),
+                  Expanded(
+                      child: Text('${widget.feed.title}',
+                          style: const TextStyle(fontSize: 20))),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
                   Text(
-                    '${widget.feed.name}',
-                    style: const TextStyle(fontSize: 18),
+                    '작성자: ${widget.feed.name}',
+                    style: const TextStyle(fontSize: 15),
+                  ),
+                  const SizedBox(width: 20),
+                  Text(
+                    '작성일: ${widget.feed.createdAt}',
+                    style: const TextStyle(fontSize: 15),
                   ),
                 ],
               ),
               const SizedBox(height: 20),
               Text("${widget.feed.content}"),
               const SizedBox(height: 20),
-              Row(
-                children: [
-                  const Expanded(child: SizedBox()),
-                  Text(
-                    '${widget.feed.createdAt}',
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
               Visibility(
-                visible: (feed.isMe == true),
+                visible: (feed.isMe != true),
                 child: Row(
                   children: [
                     const Expanded(child: SizedBox()),

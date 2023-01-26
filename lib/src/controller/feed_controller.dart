@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:get/get_state_manager/get_state_manager.dart';
@@ -27,8 +28,8 @@ class FeedController extends GetxController {
     return (body == null) ? null : body['id'];
   }
 
-  feedShow(int id) async {
-    Map? body = await feedRepo.feedShow(id);
+  feedShow(int id, int type) async {
+    Map? body = await feedRepo.feedShow(id, type);
     if (body == null) {
       return null;
     }
@@ -43,13 +44,13 @@ class FeedController extends GetxController {
     await feedIndex();
   }
 
-  feedDelete(int id) async {
-    await feedRepo.feedDelete(id);
+  feedDelete(int id, int type) async {
+    await feedRepo.feedDelete(id, type);
     await feedIndex();
   }
 
   feedEdit(int id, String title, String content, int type) async {
     await feedRepo.feedUpdate(id, title, content, type);
-    await feedShow(id);
+    await feedShow(id, type);
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 class FeedModel {
   int? id;
   String? name;
@@ -16,6 +18,6 @@ class FeedModel {
     name = m['user_name'];
     imageId = m['image_id'];
     isMe = m['is_me'];
-    type = m['type'];
+    type = m['feed_type'];
   }
 }

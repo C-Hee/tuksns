@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:get/get.dart';
@@ -58,19 +59,20 @@ class FeedRepository extends GetConnect {
     return (response.statusCode == 200) ? response.body : null;
   }
 
-  Future<Map?> feedDelete(int id) async {
+  Future<Map?> feedDelete(int id, int type) async {
     Response response = await delete(
-      "/api/feed/$id",
+      "/api/feed/$type/$id",
       headers: {'token': await userController.getToken()},
     );
     return (response.statusCode == 200) ? response.body : null;
   }
 
-  Future<Map?> feedShow(int id) async {
+  Future<Map?> feedShow(int id, int type) async {
     Response response = await get(
-      "/api/feed/$id",
+      "/api/feed/$type/$id",
       headers: {'token': await userController.getToken()},
     );
+    log('${response.body}');
     return (response.statusCode == 200) ? response.body : null;
   }
 }
