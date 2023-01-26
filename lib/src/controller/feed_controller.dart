@@ -38,8 +38,8 @@ class FeedController extends GetxController {
     return feed;
   }
 
-  feedCreate(String content, int? imageId) async {
-    await feedRepo.feedCreate(content, imageId);
+  feedCreate(String title, String content, int? imageId) async {
+    await feedRepo.feedCreate(title, content, imageId);
     await feedIndex();
   }
 
@@ -48,8 +48,8 @@ class FeedController extends GetxController {
     await feedIndex();
   }
 
-  feedEdit(int id, String content) async {
-    await feedRepo.feedUpdate(id, content);
+  feedEdit(int id, String title, String content) async {
+    await feedRepo.feedUpdate(id, title, content);
     await feedShow(id);
   }
 }

@@ -18,21 +18,24 @@ class FeedWrite extends StatefulWidget {
 }
 
 class _FeedWriteState extends State<FeedWrite> {
+  final _titleController = TextEditingController();
   final _textController = TextEditingController();
   final picker = ImagePicker();
   int? tmpImg;
 
   Future<void> submit() async {
+    String title = _titleController.text;
     String text = _textController.text;
 
     if (text == '') {
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } else {
       if (widget.beforeFeed == null) {
-        await feedController.feedCreate(_textController.text, tmpImg);
+        await feedController.feedCreate(
+            _titleController.text, _textController.text, tmpImg);
       } else {
-        await feedController.feedEdit(
-            widget.beforeFeed!.id!, _textController.text);
+        await feedController.feedEdit(widget.beforeFeed!.id!,
+            _titleController.text, _textController.text);
       }
       Get.back();
     }
@@ -65,6 +68,18 @@ class _FeedWriteState extends State<FeedWrite> {
         top: false,
         child: Column(
           children: [
+            TextField(
+                controller: _titleController,
+                minLines: null,
+                maxLines: 1,
+                decoration: const InputDecoration(
+                  contentPadding: EdgeInsets.all(20),
+                  border: InputBorder.none,
+                )),
+            const Divider(),
+            const SizedBox(
+              height: 5,
+            ),
             Expanded(
               child: TextField(
                 controller: _textController,

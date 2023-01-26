@@ -1,100 +1,100 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sns_flutter/src/controller/user_controller.dart';
+import 'package:sns_flutter/src/screen/home.dart';
 import 'package:sns_flutter/src/screen/user/register.dart';
-import '../../repository/user_repository.dart';
-import '../home.dart';
+
+final userController = Get.put(UserController());
 
 class Login extends StatefulWidget {
   const Login({super.key});
+
   @override
-  State<Login> createState() => LoginState();
+  State<Login> createState() => _LoginState();
 }
 
-class LoginState extends State<Login> {
+class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final userRepo = UserRepository();
 
-  // void submitLogin() async {
-  //   if (_formKey.currentState!.validate()) {
-  //     String email = _emailController.text;
-  //     String password = _passwordController.text;
+  void submit() async {
+    if (_formKey.currentState!.validate()) {
+      String email = _emailController.text;
+      String password = _passwordController.text;
 
-  //     final prefs = await SharedPreferences.getInstance();
-  //     String? token = await userRepo.login(email, password);
-  //     if (token == null) {
-  //       AlertDialog(
-  //         shape:
-  //             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-  //         title: const Text('로그인 실패'),
-  //         content: const Text('로그인 실패'),
-  //       );
-  //     } else {
-  //       await prefs.setString('token', token);
-  //Get.to(const Home());
-  //     }
-  //
-  //   }
-  // }
-
-  //로그인 스킵 임시 함수
-  void submitLogin() async {
-    Get.to(const Home());
+      String? message = await userController.login(email, password);
+      if (message == null) {
+        Get.off(() => const Home());
+      } else {
+        Get.snackbar("로그인 에러", message, snackPosition: SnackPosition.BOTTOM);
+      }
+    }
   }
 
-  void submitRegister() async {
-    Get.off(const Register());
-  }
-
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-            child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 50),
-                child: Form(
-                    key: _formKey,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text('로그인',
-                            style: TextStyle(
-                                fontSize: 28, fontWeight: FontWeight.bold)),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        const Text(
-                          '반갑습니다 현장실습 프로젝트 교과 프로젝트 SNS 서비스입니다.',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                        TextFormField(
-                          controller: _emailController,
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(labelText: '아이디(이메일)'),
-                        ),
-                        TextFormField(
-                          controller: _passwordController,
-                          obscureText: true,
-                          decoration: InputDecoration(labelText: '비밀번호'),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ElevatedButton(
-                                onPressed: submitRegister, child: Text('회원가입')),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            ElevatedButton(
-                                onPressed: submitLogin, child: Text('로그인'))
-                          ],
-                        ),
-                      ],
-                    )))));
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 50),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  '로그인',
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  '반갑습니다 현장실습 프로젝트 교과 예제 프로젝트 SNS 서비스 입니다.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.grey),
+                ),
+                const SizedBox(height: 80),
+                TextFormField(
+                  controller: _emailController,
+                  decoration: const InputDecoration(labelText: '아이디(email)'),
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (String? value) {
+                    if (value == null || value!.trim().isEmpty) {
+                      return "아이디를 입력해야 합니다.";
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  controller: _passwordController,
+                  decoration: const InputDecoration(labelText: '비밀번호'),
+                  obscureText: true,
+                  validator: (value) {
+                    if (value == null || value!.trim().isEmpty) {
+                      return "비밀번호를 입력해야 합니다.";
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 50),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Get.off(() => const Register());
+                      },
+                      child: const Text('아이디가 없으신가요?'),
+                    ),
+                    const SizedBox(width: 50),
+                    ElevatedButton(onPressed: submit, child: const Text('로그인')),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
