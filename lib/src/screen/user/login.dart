@@ -16,17 +16,28 @@ class LoginState extends State<Login> {
   final _passwordController = TextEditingController();
   final userRepo = UserRepository();
 
+  // void submitLogin() async {
+  //   if (_formKey.currentState!.validate()) {
+  //     String email = _emailController.text;
+  //     String password = _passwordController.text;
+
+  //     final prefs = await SharedPreferences.getInstance();
+  //     String? token = await userRepo.login(email, password);
+  //     if (token == null) {
+  //       AlertDialog(
+  //         shape:
+  //             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+  //         title: const Text('로그인 실패'),
+  //         content: const Text('로그인 실패'),
+  //       );
+  //     } else {
+  //       await prefs.setString('token', token);
+  //     }
+  //     Get.back();
+  //   }
+  // }
   void submitLogin() async {
-    if (_formKey.currentState!.validate()) {
-      String email = _emailController.text;
-      String password = _passwordController.text;
-
-
-
-      final prefs = await SharedPreferences.getInstance();
-      String? token = await userRepo.login(email, password);
-      (token==null)? :prefs.setString();
-    }
+    Get.back();
   }
 
   void submitRegister() async {

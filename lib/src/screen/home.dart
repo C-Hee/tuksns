@@ -28,7 +28,7 @@ class _HomeState extends State<Home> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _fetchData();
+    //_fetchData();
   }
 
   void _fetchData() async {

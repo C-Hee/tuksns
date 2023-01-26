@@ -21,8 +21,7 @@ import 'package:get/route_manager.dart';
 //     });
 //   }
 class MyApp extends StatelessWidget {
-  String? token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiIiwiaWF0IjoxNjc0NzAyNDk1fQ.QkrGO7F8_EHOlzN8AdQakPWrEmWIdbO78_2soYqMZiU';
+  String? token = '';
   MyApp(this.token, {super.key});
   @override
   Widget build(BuildContext context) {
