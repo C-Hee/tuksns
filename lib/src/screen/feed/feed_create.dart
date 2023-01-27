@@ -53,7 +53,7 @@ class _FeedWriteState extends State<FeedWrite> {
 
   _fillData() {
     if (widget.beforeFeed != null) {
-      _titleController.text = widget.beforeFeed!.content!;
+      _titleController.text = widget.beforeFeed!.title!;
       _textController.text = widget.beforeFeed!.content!;
     }
   }

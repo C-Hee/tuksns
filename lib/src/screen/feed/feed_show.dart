@@ -38,7 +38,7 @@ class _FeedShowState extends State<FeedShow> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('피드'),
+        title: const Text('게시글'),
       ),
       body: GetBuilder<FeedController>(builder: (b) {
         FeedModel? feed = b.feedOne;
@@ -78,6 +78,10 @@ class _FeedShowState extends State<FeedShow> {
               const Divider(),
               Expanded(child: Text("${feed.content}")),
               const Divider(),
+              Column(children: [
+                //ListView()
+              ]),
+              const Divider(),
               Visibility(
                 visible: (feed.isMe == true),
                 child: Row(
@@ -95,7 +99,7 @@ class _FeedShowState extends State<FeedShow> {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                title: const Text("피드 삭제"),
+                                title: const Text("게시글 삭제"),
                                 content: const Text('정말 삭제하시겠습니까'),
                                 actions: [
                                   TextButton(
